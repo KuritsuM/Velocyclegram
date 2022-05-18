@@ -1,12 +1,21 @@
 class User < ApplicationRecord
-  attr_writer :login
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  attr_writer :login
+
+  has_many :followings, class_name: 'Follow', foreign_key: :follower_id
+  has_many :followers, through: :followings
+
+  has_many :followers, class_name: 'Follow', foreign_key: :following_id
+
+
+
+
   validate :validate_username
+
 
   def validate_username
     if User.where(email: username).exists?
@@ -26,4 +35,5 @@ class User < ApplicationRecord
       where(conditions.to_h).first
     end
   end
+
 end
