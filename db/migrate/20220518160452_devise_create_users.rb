@@ -45,6 +45,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.bigint "following_id"
     end
 
+    #add_index :username, :username,          unique: true
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true

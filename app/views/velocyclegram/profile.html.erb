@@ -1,0 +1,16 @@
+<br><br><br><br>
+<p1><%= current_user.id %></p1>
+<br>
+<% if @user %>
+  <p1><%= @user.username %></p1>
+  <% if current_user.followings.find { |following| following.following_id == @user.id } %>
+    <%= link_to 'Отписаться', unfollow_path(@user), method: :delete %>
+  <% else %>
+    <%= link_to 'Подписаться', follow_path(@user), method: :post %>
+  <% end %>
+  <br><br>
+  <%= link_to "Подписки ползьователя #{@user.username}", followings_path(@user.id) %><br>
+  <%= link_to "Подписчики ползьователя #{@user.username}", followers_path(@user.id) %>
+<% else %>
+  <p1>Такого пользователя не существует.</p1>
+<% end %>

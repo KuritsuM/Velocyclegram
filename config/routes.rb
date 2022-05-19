@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  resources :follows
-  resources :followings
   devise_for :users
+
   root "application#index"
-  get "/:id", to: "velocyclegram#user_profile"
+  get "/profile/:id", to: "velocyclegram#profile", as: 'profile'
+
+  get "/followers/:id", to: "follow#followers", as: 'followers'
+  get "/followings/:id", to: "follow#followings", as: 'followings'
+  post "/follow", to: "follow#create"
+  delete "/unfollow", to: "follow#delete"
 end

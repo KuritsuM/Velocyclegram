@@ -1,5 +1,5 @@
 class VelocyclegramController < ApplicationController
-  def user_profile
+  def profile
     begin
       @user = User.find(params[:id])
     rescue

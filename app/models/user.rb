@@ -8,14 +8,9 @@ class User < ApplicationRecord
 
   has_many :followings, class_name: 'Follow', foreign_key: :follower_id
   has_many :followers, through: :followings
-
   has_many :followers, class_name: 'Follow', foreign_key: :following_id
 
-
-
-
   validate :validate_username
-
 
   def validate_username
     if User.where(email: username).exists?

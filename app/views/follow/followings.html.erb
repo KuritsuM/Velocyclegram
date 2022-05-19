@@ -1,0 +1,8 @@
+<br><br><br><br><br><br><br>
+<% if @followings %>
+  <% @followings.each do |following| %>
+    <%= link_to "Пользователь #{following.username}", profile_path(following.id) %><br>
+  <% end %>
+<% else %>
+  <h1>Пользователь не найден</h1>
+<% end %>
