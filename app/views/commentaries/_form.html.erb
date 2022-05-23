@@ -1,0 +1,34 @@
+<%= form_with(model: commentary, local: true) do |form| %>
+  <% if commentary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(commentary.errors.count, "error") %> prohibited this commentary from being saved:</h2>
+
+      <ul>
+        <% commentary.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :comment_text %>
+    <%= form.text_area :comment_text %>
+  </div>
+
+  <div class="field">
+    <%= form.number_field :user_id, id: :user_id, value: current_user.id, type: :hidden %>
+  </div>
+
+  <div class="field">
+    <% if @commentary.id.nil? %>
+      <%= form.number_field :post_id, id: :post_id, value: @post_id, type: :hidden %>
+    <% else %>
+      <%= form.number_field :post_id, id: :post_id, value: @commentary.post_id, type: :hidden %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

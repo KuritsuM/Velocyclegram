@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :commentaries, only: [:create, :update, :destroy, :show, :edit]
+  resources :posts
   devise_for :users
 
   root "application#index"
@@ -8,4 +10,5 @@ Rails.application.routes.draw do
   get "/followings/:id", to: "follow#followings", as: 'followings'
   post "/follow", to: "follow#create"
   delete "/unfollow", to: "follow#delete"
+  get "/commentary/:post_id", to: "commentaries#new", as: "new_comment"
 end

@@ -3,9 +3,6 @@ class Follow < ApplicationRecord
     followers = Follow.where(["following_id = :following_id", { following_id: user_following_id }])
     users = []
     followers.each { |follower| users << User.find_by(id: follower.follower_id) }
-
-    puts users.to_json
-
     users
   end
 
@@ -13,9 +10,6 @@ class Follow < ApplicationRecord
     followings = Follow.where(["follower_id = :follower_id", { follower_id: user_follower_id }])
     users = []
     followings.each { |following| users << User.find_by(id: following.following_id) }
-
-    puts users.to_json
-
     users
   end
 end

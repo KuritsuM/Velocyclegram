@@ -2,7 +2,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def index
+    if current_user
+      redirect_to action: 'profile', controller: "velocyclegram", id: current_user.id
+    else
 
+    end
   end
 
 
