@@ -1,0 +1,46 @@
+<br><br><br><br>
+<br>
+<% if @user %>
+  <br>
+  <% if current_user.followings.find { |following| following.following_id == @user.id } %>
+    <%= link_to 'Отписаться', unfollow_path(@user), method: :delete %>
+  <% else %>
+    <% if current_user.id != @user.id %>
+      <%= link_to 'Подписаться', follow_path(@user), method: :post %>
+    <% end %>
+  <% end %>
+  <h1><%= @user.username %></h1>
+  <br><br>
+  <%= link_to "Подписки ползьователя #{@user.username}", followings_path(@user.id) %><br>
+  <%= link_to "Подписчики ползьователя #{@user.username}", followers_path(@user.id) %><br>
+
+  <% if current_user.id == @user.id %>
+    <%= link_to 'Создать пост', new_post_path %>
+  <% end %>
+
+  <% @user.post.each do |post| %>
+  <div class="post" style="background: #B00100; color: yellowgreen">
+    <%= post.title %>
+    <%= image_tag(post.image) %>
+    <div class="commentaries">
+      <% post.commentary.each do |comment| %>
+        <div class="commentary"></div>
+        <h1 style="color: cyan"><%= comment.user.username %></h1><br>
+        <p style="color: pink"><%= comment.comment_text %></p>
+        <% if comment.user_id == current_user.id || current_user.id == @user.id %>
+          <%= link_to "Удалить", commentary_path(comment.id), method: :delete %>
+        <% end %>
+        <% if comment.user_id == current_user.id %>
+          <%= link_to "Изменить", edit_commentary_path(comment.id) %>
+        <% end %>
+      <% end %>
+    </div>
+    <%= link_to "Прокомментировать", new_comment_path(post.id) %>
+  </div>
+    <br>
+  <% end %>
+
+
+<% else %>
+  <h1>Такого пользователя не существует.</h1>
+<% end %>
