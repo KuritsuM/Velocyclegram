@@ -1,25 +1,9 @@
 class LikesController < ApplicationController
-  before_action :set_like, only: %i[ show edit update destroy ]
+  before_action :set_like, only: %i[ destroy ]
+  before_action :check_like_delete_permission, only: %i[ destroy ]
+  before_action :check_authorization
+  before_action :check_like_create_permission, only: %i[ create ]
 
-  # GET /likes or /likes.json
-  def index
-    @likes = Like.all
-  end
-
-  # GET /likes/1 or /likes/1.json
-  def show
-  end
-
-  # GET /likes/new
-  def new
-    @like = Like.new
-  end
-
-  # GET /likes/1/edit
-  def edit
-  end
-
-  # POST /likes or /likes.json
   def create
     @like = Like.new(post_params)
 
@@ -34,20 +18,6 @@ class LikesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /likes/1 or /likes/1.json
-  def update
-    respond_to do |format|
-      if @like.update(like_params)
-        format.html { redirect_to like_url(@like), notice: "Like was successfully updated." }
-        format.json { render :show, status: :ok, location: @like }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @like.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /likes/1 or /likes/1.json
   def destroy
     @user_id = @like.post.user_id
     @like.destroy
@@ -59,12 +29,34 @@ class LikesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_like
-      @like = Like.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
+  # Use callbacks to share common setup or constraints between actions.
+  def set_like
+    @like = Like.find(params[:id])
+  end
+
+  def check_authorization
+    if !user_signed_in?
+      redirect_to '/'
+    end
+  end
+
+  def check_like_create_permission
+    if current_user.id != post_params[:user_id].to_i
+      redirect_to profile_path(Post.find(post_params[:post_id]).user.id)
+    end
+  end
+
+  def check_like_delete_permission
+    check_authorization
+    set_like
+
+    if @like.user.id != current_user.id
+      redirect_to profile_path(id: @like.post.user.id)
+    end
+  end
+
+  # Only allow a list of trusted parameters through.
   def post_params
     params.require(:like).permit(:user_id, :post_id)
   end

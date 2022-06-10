@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :likes, only: [:create, :destroy]
   resources :commentaries, only: [:destroy, :create, :edit, :update]
+  resources :follow, only: [ :create, :destroy ]
   resources :posts
   devise_for :users
 
@@ -9,8 +10,10 @@ Rails.application.routes.draw do
 
   get "/followers/:id", to: "follow#followers", as: 'followers'
   get "/followings/:id", to: "follow#followings", as: 'followings'
+=begin
   post "/follow", to: "follow#create"
-  delete "/unfollow", to: "follow#delete"
+  delete "/follow/:id", to: "follow#destroy"
+=end
 
   get "/commentary/:post_id", to: "commentaries#new", as: "new_comment"
 end
