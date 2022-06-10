@@ -8,9 +8,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
-      t.has_many
-
-
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
@@ -38,11 +35,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
 
 
       t.timestamps null: false
-    end
-
-    create_table :users_users do |t|
-      t.bigint "user_id"
-      t.bigint "following_id"
     end
 
     #add_index :username, :username,          unique: true

@@ -3,10 +3,18 @@
 <% if @user %>
   <br>
   <% if current_user.followings.find { |following| following.following_id == @user.id } %>
-    <%= link_to 'Отписаться', unfollow_path(@user), method: :delete %>
+    <%= link_to 'Отписаться',
+                follow_path(current_user.followings.find { |following| following.following_id == @user.id }.id),
+                method: :delete %>
   <% else %>
     <% if current_user.id != @user.id %>
-      <%= link_to 'Подписаться', follow_path(@user), method: :post %>
+      <%= form_with(model: Follow.new, url: "/follow") do |form| %>
+        <%= form.number_field :follower_id, id: :user_id, value: current_user.id, type: :hidden %>
+        <%= form.number_field :following_id, id: :user_id, value: @user.id, type: :hidden %>
+        <div class="actions">
+          <%= form.submit "Подписаться" %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
   <h1><%= @user.username %></h1>
@@ -19,24 +27,44 @@
   <% end %>
 
   <% @user.post.each do |post| %>
-  <div class="post" style="background: #B00100; color: yellowgreen">
-    <%= post.title %>
-    <%= image_tag(post.image) %>
-    <div class="commentaries">
-      <% post.commentary.each do |comment| %>
-        <div class="commentary"></div>
-        <h1 style="color: cyan"><%= comment.user.username %></h1><br>
-        <p style="color: pink"><%= comment.comment_text %></p>
-        <% if comment.user_id == current_user.id || current_user.id == @user.id %>
-          <%= link_to "Удалить", commentary_path(comment.id), method: :delete %>
+    <div class="post" style="background: #B00100; color: yellowgreen">
+      <%= post.title %>
+      <%= image_tag(post.image) %>
+      <br>
+      <div class="likes">
+        <% if Like.user_liked_post?(current_user.id, post.id) %>
+          <%= link_to "💔(#{Like.count_post_likes(post.id)})",
+                      like_path(Like.find_by_user_id_and_post_id(current_user.id, post.id).id), method: :delete %>
+        <% else %>
+
+          <%= form_with(model: Like.new, local: true) do |form| %>
+            <%= form.number_field :user_id, id: :user_id, value: current_user.id, type: :hidden %>
+            <%= form.number_field :post_id, id: :post_id, value: post.id, type: :hidden %>
+            <div class="actions">
+              <%= form.submit "♥(#{Like.count_post_likes(post.id)})" %>
+            </div>
+          <% end %>
         <% end %>
-        <% if comment.user_id == current_user.id %>
-          <%= link_to "Изменить", edit_commentary_path(comment.id) %>
+      </div>
+
+      <br>
+
+      <div class="commentaries">
+        <% post.commentary.each do |comment| %>
+          <div class="commentary">
+            <h1 style="color: cyan"><%= comment.user.username %></h1><br>
+            <p style="color: pink"><%= comment.comment_text %></p>
+            <% if comment.user_id == current_user.id || current_user.id == @user.id %>
+              <%= link_to "Удалить", commentary_path(comment.id), method: :delete %>
+            <% end %>
+            <% if comment.user_id == current_user.id %>
+              <%= link_to "Изменить", edit_commentary_path(comment.id) %>
+            <% end %>
+          </div>
         <% end %>
-      <% end %>
+      </div>
+      <%= link_to "Прокомментировать", new_comment_path(post.id) %>
     </div>
-    <%= link_to "Прокомментировать", new_comment_path(post.id) %>
-  </div>
     <br>
   <% end %>
 

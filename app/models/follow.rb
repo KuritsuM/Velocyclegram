@@ -1,4 +1,6 @@
 class Follow < ApplicationRecord
+  belongs_to :following, class_name: "User"
+  belongs_to :follower, class_name: "User"
   def self::make_followers(user_following_id)
     followers = Follow.where(["following_id = :following_id", { following_id: user_following_id }])
     users = []

@@ -1,20 +1,8 @@
 class CommentariesController < ApplicationController
-  before_action :set_commentary, only: %i[ show edit update destroy ]
-
-  # GET /commentaries or /commentaries.json
-  def index
-    @commentaries = Commentary.all
-  end
-
-  # GET /commentaries/1 or /commentaries/1.json
-  def show
-  end
-
-  # GET /commentaries/new
-  def new
-    @post_id = params[:post_id]
-    @commentary = Commentary.new
-  end
+  before_action :check_authorization
+  before_action :set_commentary, only: %i[ edit update destroy ]
+  before_action :check_post_delete_permission, only: %i[ destroy ]
+  before_action :check_post_edit_permission, only: %i[ edit update ]
 
   # GET /commentaries/1/edit
   def edit
@@ -61,13 +49,38 @@ class CommentariesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_commentary
-      @commentary = Commentary.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def commentary_params
-      params.require(:commentary).permit(:comment_text, :post_id, :user_id)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_commentary
+    @commentary = Commentary.find(params[:id])
+  end
+
+  def check_authorization
+    if !user_signed_in?
+      redirect_to '/'
     end
+  end
+
+  def check_post_edit_permission
+    check_authorization
+    set_commentary
+
+    if !(@commentary.user.id == current_user.id)
+      redirect_to profile_path(id: @commentary.post.user.id)
+    end
+  end
+
+  def check_post_delete_permission
+    check_authorization
+    set_commentary
+
+    if !(@commentary.post.user.id == current_user.id || @commentary.user.id == current_user.id)
+      redirect_to profile_path(id: @commentary.post.user.id)
+    end
+  end
+
+  # Only allow a list of trusted parameters through.
+  def commentary_params
+    params.require(:commentary).permit(:comment_text, :post_id, :user_id)
+  end
 end

@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :followers, class_name: 'Follow', foreign_key: :following_id
   has_many :post
   has_many :commentary
+  has_many :like
 
   validate :validate_username
 

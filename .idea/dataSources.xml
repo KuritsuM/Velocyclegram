@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/velocyclegram_development</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="velocyclegram_test@localhost" uuid="be58b8fb-da8c-4365-ab5f-95f58213a52d">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/velocyclegram_test</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
