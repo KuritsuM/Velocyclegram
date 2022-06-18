@@ -3,6 +3,10 @@ class PostsController < ApplicationController
   before_action :check_authorization #, only: %i[ new edit create update destroy ]
   before_action :check_post_creator, only: [ :update, :destroy ]
 
+  # GET /posts/1
+  def show
+  end
+
   # GET /posts/new
   def new
     @post = Post.new

@@ -1,9 +1,23 @@
-<p id="notice"><%= notice %></p>
+<div class="post-full">
+  <div class="post-image">
+    <%= image_tag @post.image %>
+  </div>
+  <div class="post-utility">
+    <div class="author-info">
+      <%= link_to image_tag(@post.user.avatar, class: "author-avatar"), profile_path(id: @post.user.id) %>
+      <%= link_to @post.user.username, profile_path(id: @post.user.id) %>
+    </div>
+    <div class="commentaries">
+      <% @post.commentary.each do |comment| %>
+        <%= render 'include/commentary/commentary', commentary: comment %>
+      <% end %>
+    </div>
+    <%= render 'include/like/like', post: @post %>
+    <%= render 'commentaries/form', post_id: @post.id, commentary: Commentary.new %>
+  </div>
+</div>
 
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
-
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<% if @post.user == current_user %>
+  <%= link_to 'Редактировать', edit_post_path(@post) %>
+<% end %>
+<%= link_to 'Назад', posts_path %>

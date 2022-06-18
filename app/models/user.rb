@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :post
   has_many :commentary
   has_many :like
+  has_one_attached :avatar
 
   validate :validate_username
 
@@ -34,4 +35,10 @@ class User < ApplicationRecord
     end
   end
 
+  def avatar
+    if super.attached?
+      return super
+    end
+    "no-avatar.png"
+  end
 end

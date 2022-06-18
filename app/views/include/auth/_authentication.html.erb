@@ -1,6 +1,12 @@
 <% if user_signed_in? %>
-  <%= link_to "#{current_user.login}", profile_path(current_user.id) %>
-  <%= link_to 'Выход', destroy_user_session_path, method: :delete %>
+  <div class="dropdown">
+    <%= image_tag current_user.avatar, class: "avatar" %>
+    <div class="dropdown-content">
+      <%= link_to 'Профиль', profile_path(id: current_user.id) %>
+      <%= link_to 'Настройки', edit_user_registration_path %>
+      <%= link_to 'Выход', destroy_user_session_path, method: :delete %>
+    </div>
+  </div>
 <% else %>
   <%= link_to 'Вход', new_user_session_path %>
   <%= link_to 'Регистрация', new_user_registration_path %>
