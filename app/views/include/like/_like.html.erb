@@ -1,0 +1,17 @@
+<div class="likes">
+  <% if !Like.user_liked_post?(current_user.id, post.id) %>
+    <!-- send like -->
+    <%= form_with(model: Like.new, local: true) do |form| %>
+      <%= form.number_field :user_id, id: :user_id, value: current_user.id, type: :hidden %>
+      <%= form.number_field :post_id, id: :post_id, value: post.id, type: :hidden %>
+      <div class="actions">
+        <%= form.submit "♥(#{post.like.count})", class: "like" %>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- send dislike -->
+    <%= form_tag like_path(id: Like.find_by_user_id_and_post_id(current_user.id, post.id).id), method: :delete do %>
+      <%= submit_tag "♥(#{post.like.count})", class: "dislike" %>
+    <% end %>
+  <% end %>
+</div>

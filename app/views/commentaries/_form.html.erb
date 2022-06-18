@@ -21,8 +21,8 @@
   </div>
 
   <div class="field">
-    <% if @commentary.id.nil? %>
-      <%= form.number_field :post_id, id: :post_id, value: @post_id, type: :hidden %>
+    <% if @commentary.nil? %>
+      <%= form.number_field :post_id, id: :post_id, value: post_id, type: :hidden %>
     <% else %>
       <%= form.number_field :post_id, id: :post_id, value: @commentary.post_id, type: :hidden %>
     <% end %>

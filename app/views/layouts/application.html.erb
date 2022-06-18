@@ -10,8 +10,14 @@
   </head>
 
   <body>
-    <%= render 'include/auth/authentication' %>
-    <%= render 'include/main/notification' %>
+    <header class="header-all">
+      <div class="auth">
+        <%= render 'include/auth/authentication' %>
+        <%= render 'include/main/notification' %>
+      </div>
+      <%= image_tag "Instagram_logo.svg.png", height: 40 %>
+    </header>
+
     <%= yield %>
   </body>
 </html>

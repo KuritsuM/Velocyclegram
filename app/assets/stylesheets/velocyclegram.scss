@@ -1,3 +1,45 @@
 // Place all the styles related to the Velocyclegram controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.post-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.post {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.post img {
+  width: 580px;
+  height: 580px;
+}
+
+.profile-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.followings-followers {
+  text-align: center;
+  font-size: 20px;
+}
+
+.followings-followers p {
+  margin-top: 0;
+  text-align: center;
+  font-size: 30px;
+}

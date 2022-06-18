@@ -9,7 +9,7 @@ class LikesController < ApplicationController
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to profile_path(@like.post.user_id) }
+        format.html { redirect_to post_path(@like.post.id) }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -19,11 +19,11 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    @user_id = @like.post.user_id
+    @post_id = @like.post.id
     @like.destroy
 
     respond_to do |format|
-      format.html { redirect_to profile_path(@user_id) }
+      format.html { redirect_to post_path(@post_id) }
       format.json { head :no_content }
     end
   end

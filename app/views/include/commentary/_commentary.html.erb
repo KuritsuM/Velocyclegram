@@ -1,0 +1,7 @@
+<div class="commentary">
+  <div class="user-profile">
+    <%= link_to image_tag(commentary.user.avatar, class: "avatar"), profile_path(commentary.user.id) %>
+    <%= link_to commentary.user.username, profile_path(commentary.user.id) %>
+  </div>
+  <span class="commentary-text"><%= commentary.comment_text %></span>
+</div>
