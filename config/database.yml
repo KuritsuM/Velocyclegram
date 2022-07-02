@@ -20,9 +20,11 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  #host: database
 
 development:
   <<: *default
+  host: localhost
   database: velocyclegram_development
 
   # The specified database role being used to connect to postgres.
@@ -82,6 +84,9 @@ test:
 #
 production:
   <<: *default
-  database: Velocyclegram_production
-  username: Velocyclegram
-  password: <%= ENV['VELOCYCLEGRAM_DATABASE_PASSWORD'] %>
+  host: database
+  url: <%= ENV['DATABASE_URL'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_DB'] %>
+
