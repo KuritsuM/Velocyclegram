@@ -1,11 +1,15 @@
-<br><br><br><br><br><br><br>
 <% if @followers %>
   <% if @followers.empty? %>
     <h2>У пользователя нет подписчиков 😭</h2>
   <% end %>
-  <% @followers.each do |follower| %>
-    <%= link_to "#{follower.username}", profile_path(follower.id) %><br>
-  <% end %>
+  <div class="followers">
+    <% @followers.each do |follower| %>
+      <div class="follower-profile">
+        <%= link_to image_tag(follower.avatar, class: "avatar"), profile_path(follower.id) %>
+        <%= link_to "#{follower.username}", profile_path(follower.id) %>
+      </div>
+    <% end %>
+  </div>
 <% else %>
   <h1>Пользователь не найден</h1>
 <% end %>
