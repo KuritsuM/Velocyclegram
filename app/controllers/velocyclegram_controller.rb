@@ -4,16 +4,13 @@ class VelocyclegramController < ApplicationController
       redirect_to '/'
     end
 
-    #begin
+    begin
       @user = User.find(params[:id])
-=begin
     rescue
       not_found
     end
-=end
   end
 
-=begin
   def not_found
     respond_to do |format|
       format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found }
@@ -21,5 +18,4 @@ class VelocyclegramController < ApplicationController
       format.any  { head :not_found }
     end
   end
-=end
 end
