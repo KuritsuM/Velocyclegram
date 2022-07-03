@@ -21,4 +21,4 @@
   <%= link_to 'Редактировать', edit_post_path(@post) %>
   <%= link_to 'Удалить', post_path(@post), method: :delete %>
 <% end %>
-<%= link_to 'Назад', posts_path %>
+<%= link_to 'К профилю', profile_path(@post.user.id) %>

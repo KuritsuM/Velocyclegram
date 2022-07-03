@@ -3,7 +3,9 @@ class CommentariesController < ApplicationController
   before_action :set_commentary, only: %i[ edit update destroy ]
   before_action :check_post_delete_permission, only: %i[ destroy ]
   before_action :check_post_edit_permission, only: %i[ edit update ]
-
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActionController::RoutingError, :with => :not_found
+  rescue_from ArgumentError, :with => :not_found
   # GET /commentaries/1/edit
   def edit
     @commentary = Commentary.find(params[:id])
@@ -57,7 +59,7 @@ class CommentariesController < ApplicationController
 
   def check_authorization
     if !user_signed_in?
-      redirect_to '/'
+      redirect_to new_user_session_path
     end
   end
 
@@ -82,5 +84,14 @@ class CommentariesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def commentary_params
     params.require(:commentary).permit(:comment_text, :post_id, :user_id)
+  end
+
+  private
+  def not_found
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found }
+      format.xml  { head :not_found }
+      format.any  { head :not_found }
+    end
   end
 end

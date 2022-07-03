@@ -15,9 +15,20 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   validate :validate_username
+  validate :validate_email
+
+  self.per_page = 10
+
+  #validates :avatar, content_type: /\Aimage\/.*\z/
+
+  def validate_email
+    if User.where(email: email).exists?
+      errors.add(:email, :invalid)
+    end
+  end
 
   def validate_username
-    if User.where(email: username).exists?
+    if User.where(username: username).exists?
       errors.add(:username, :invalid)
     end
   end

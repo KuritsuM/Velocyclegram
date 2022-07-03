@@ -3,6 +3,9 @@ class LikesController < ApplicationController
   before_action :check_like_delete_permission, only: %i[ destroy ]
   before_action :check_authorization
   before_action :check_like_create_permission, only: %i[ create ]
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActionController::RoutingError, :with => :not_found
+  rescue_from ArgumentError, :with => :not_found
 
   def create
     @like = Like.new(post_params)
@@ -37,7 +40,7 @@ class LikesController < ApplicationController
 
   def check_authorization
     if !user_signed_in?
-      redirect_to '/'
+      redirect_to new_user_session_path
     end
   end
 
@@ -59,5 +62,13 @@ class LikesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def post_params
     params.require(:like).permit(:user_id, :post_id)
+  end
+
+  def not_found
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found }
+      format.xml  { head :not_found }
+      format.any  { head :not_found }
+    end
   end
 end

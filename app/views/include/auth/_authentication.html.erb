@@ -3,6 +3,7 @@
     <%= image_tag current_user.avatar, class: "avatar" %>
     <div class="dropdown-content">
       <%= link_to 'Профиль', profile_path(id: current_user.id) %>
+      <%= link_to 'Пользователи', users_path(page: 1) %>
       <%= link_to 'Настройки', edit_user_registration_path %>
       <%= link_to 'Выход', destroy_user_session_path, method: :delete %>
     </div>
