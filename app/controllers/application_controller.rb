@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def index
-    @posts = Post.limit(10).order('id desc')
+    @posts = LastCreatedPostsService.new.get_posts
   end
 
   protected

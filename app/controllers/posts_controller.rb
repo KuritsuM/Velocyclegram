@@ -5,11 +5,6 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    begin
-      @post = Post.find(params[:id])
-    rescue
-      not_found
-    end
   end
 
   # GET /posts/new
@@ -63,7 +58,7 @@ class PostsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.includes(:commentary).where(id: params[:id]).first
   end
 
   def check_authorization

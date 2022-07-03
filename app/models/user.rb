@@ -6,12 +6,12 @@ class User < ApplicationRecord
 
   attr_writer :login
 
-  has_many :followings, class_name: 'Follow', foreign_key: :follower_id
+  has_many :followings, class_name: 'Follow', foreign_key: :follower_id, dependent: :delete_all
   has_many :followers, through: :followings
-  has_many :followers, class_name: 'Follow', foreign_key: :following_id
-  has_many :post
+  has_many :followers, class_name: 'Follow', foreign_key: :following_id, dependent: :delete_all
+  has_many :post, dependent: :delete_all
   has_many :commentary
-  has_many :like
+  has_many :like, dependent: :delete_all
   has_one_attached :avatar
 
   validates :email, presence: true, uniqueness: true

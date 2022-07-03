@@ -1,7 +1,4 @@
-<br><br><br><br>
-<br>
-<% if @user %>
-  <br>
+<div class="user-profile">
   <% if current_user.followings.find { |following| following.following_id == @user.id } %>
     <%= link_to 'Отписаться',
                 follow_path(current_user.followings.find { |following| following.following_id == @user.id }.id),
@@ -41,39 +38,8 @@
   <div class="post-container">
     <% @user.post.reverse.each do |post| %>
       <div class="post">
-<!--    <%#= post.title %>-->
         <%= link_to image_tag(post.image), post_path(id: post.id) %>
-        <!--<div class="likes">
-
-
-            <%#= form_with(model: Like.new, local: true) do |form| %>
-              <%#= form.number_field :user_id, id: :user_id, value: current_user.id, type: :hidden %>
-              <%#= form.number_field :post_id, id: :post_id, value: post.id, type: :hidden %>
-              <div class="actions">
-                <%#= form.submit "♥(#{Like.count_post_likes(post.id)})" %>
-              </div>
-            <%# end %>
-          <%# end %>
-        </div>-->
-        <!--<div class="commentaries">
-        <%# post.commentary.each do |comment| %>
-          <div class="commentary">
-            <h1 style="color: cyan"><%#= comment.user.username %></h1><br>
-            <p style="color: pink"><%#= comment.comment_text %></p>
-            <%# if comment.user_id == current_user.id || current_user.id == @user.id %>
-              <%#= link_to "Удалить", commentary_path(comment.id), method: :delete %>
-            <%# end %>
-            <%# if comment.user_id == current_user.id %>
-              <%#= link_to "Изменить", edit_commentary_path(comment.id) %>
-            <%# end %>
-          </div>
-        <%# end %>
-      </div>
-      <%#= link_to "Прокомментировать", new_comment_path(post.id) %>-->
       </div>
     <% end %>
   </div>
-
-<% else %>
-  <h1>Такого пользователя не существует.</h1>
-<% end %>
+</div>

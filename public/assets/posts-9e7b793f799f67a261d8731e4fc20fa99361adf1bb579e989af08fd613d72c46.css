@@ -1,0 +1,55 @@
+/* line 5, app/assets/stylesheets/posts.scss */
+.post-full {
+  display: flex;
+}
+
+/* line 9, app/assets/stylesheets/posts.scss */
+.post-utility {
+  display: flex;
+  flex-direction: column;
+}
+
+/* line 14, app/assets/stylesheets/posts.scss */
+.author-info {
+  display: flex;
+  margin-left: 30px;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+/* line 22, app/assets/stylesheets/posts.scss */
+a:hover {
+  background-color: #ffffff;
+}
+
+/* line 26, app/assets/stylesheets/posts.scss */
+.post-image img {
+  height: 720px;
+  width: 1240px;
+}
+
+/* line 31, app/assets/stylesheets/posts.scss */
+.commentaries {
+  margin: 20px 0 0 40px;
+}
+
+/* line 35, app/assets/stylesheets/posts.scss */
+.author-avatar {
+  height: 56px;
+  width: 56px;
+  border-radius: 28px;
+}
+
+/* line 41, app/assets/stylesheets/posts.scss */
+.dislike {
+  color: red;
+  background-color: #ffffff;
+  border: none;
+}
+
+/* line 47, app/assets/stylesheets/posts.scss */
+.like {
+  background-color: #ffffff;
+  border: none;
+}

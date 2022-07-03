@@ -5,11 +5,11 @@ class FollowController < ApplicationController
   before_action :check_authorization, only: %i[ followers, followings ]
 
   def followers
-    @followers = Follow.make_followers(params[:id])
+    @followers = FollowersService.new(params[:id]).make_followers
   end
 
   def followings
-    @followings = Follow.make_followings(params[:id])
+    @followings = FollowingsService.new(params[:id]).make_followings
   end
 
   def create

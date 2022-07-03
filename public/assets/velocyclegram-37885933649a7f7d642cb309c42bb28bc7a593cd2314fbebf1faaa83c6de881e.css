@@ -1,0 +1,48 @@
+/* line 5, app/assets/stylesheets/velocyclegram.scss */
+.post-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+/* line 12, app/assets/stylesheets/velocyclegram.scss */
+.post {
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* line 17, app/assets/stylesheets/velocyclegram.scss */
+.post img {
+  width: 580px;
+  height: 580px;
+}
+
+/* line 22, app/assets/stylesheets/velocyclegram.scss */
+.profile-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+/* line 30, app/assets/stylesheets/velocyclegram.scss */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* line 36, app/assets/stylesheets/velocyclegram.scss */
+.followings-followers {
+  text-align: center;
+  font-size: 20px;
+}
+
+/* line 41, app/assets/stylesheets/velocyclegram.scss */
+.followings-followers p {
+  margin-top: 0;
+  text-align: center;
+  font-size: 30px;
+}
