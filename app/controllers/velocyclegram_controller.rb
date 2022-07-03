@@ -2,11 +2,7 @@ class VelocyclegramController < ApplicationController
   before_action :check_authorization
 
   def profile
-    begin
-      @user = User.find(params[:id])
-    rescue
-      not_found
-    end
+    @user = User.find(params[:id])
   end
 
   private

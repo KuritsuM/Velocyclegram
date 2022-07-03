@@ -1,8 +1,9 @@
 <div class="users">
   <% @users.each do |user| %>
-    <%= image_tag user.avatar, height: 40 %>
-    <%= link_to user.username, profile_path(user.id) %>
-    <br/><br/>
+    <div class="user-little-profile">
+      <%= image_tag user.avatar, height: 40 %>
+      <%= link_to user.username, profile_path(user.id) %>
+    </div>
   <% end %>
 </div>
 <%= will_paginate @users, :style => 'color:gray' %>

@@ -1,0 +1,14 @@
+/* line 5, app/assets/stylesheets/follows.scss */
+.followers {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+/* line 11, app/assets/stylesheets/follows.scss */
+.follower-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
