@@ -1,7 +1,5 @@
 class VelocyclegramController < ApplicationController
   before_action :check_authorization
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionController::RoutingError, :with => :not_found
 
   def profile
     begin
