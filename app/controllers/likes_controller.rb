@@ -3,9 +3,6 @@ class LikesController < ApplicationController
   before_action :check_like_delete_permission, only: %i[ destroy ]
   before_action :check_authorization
   before_action :check_like_create_permission, only: %i[ create ]
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionController::RoutingError, :with => :not_found
-  rescue_from ArgumentError, :with => :not_found
 
   def create
     @like = Like.new(post_params)

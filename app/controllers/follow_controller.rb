@@ -3,9 +3,6 @@ class FollowController < ApplicationController
   before_action :check_if_user_can_follow, only: %i[ create ]
   before_action :check_if_user_can_unfollow, only: %i[ destroy ]
   before_action :check_authorization, only: %i[ followers, followings ]
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionController::RoutingError, :with => :not_found
-  rescue_from ArgumentError, :with => :not_found
 
   def followers
     @followers = Follow.make_followers(params[:id])

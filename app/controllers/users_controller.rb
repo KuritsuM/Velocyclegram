@@ -1,8 +1,4 @@
 class UsersController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionController::RoutingError, :with => :not_found
-  rescue_from ArgumentError, :with => :not_found
-
   def show
     @users = User.order('id DESC').page(params[:page])
   end

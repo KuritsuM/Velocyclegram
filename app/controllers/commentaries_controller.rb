@@ -3,9 +3,6 @@ class CommentariesController < ApplicationController
   before_action :set_commentary, only: %i[ edit update destroy ]
   before_action :check_post_delete_permission, only: %i[ destroy ]
   before_action :check_post_edit_permission, only: %i[ edit update ]
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionController::RoutingError, :with => :not_found
-  rescue_from ArgumentError, :with => :not_found
   # GET /commentaries/1/edit
   def edit
     @commentary = Commentary.find(params[:id])

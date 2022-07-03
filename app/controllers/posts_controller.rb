@@ -2,9 +2,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :check_authorization #, only: %i[ new edit create update destroy ]
   before_action :check_post_creator, only: [:update, :destroy]
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
-  rescue_from ActionController::RoutingError, :with => :not_found
-  rescue_from ArgumentError, :with => :not_found
 
   # GET /posts/1
   def show
