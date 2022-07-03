@@ -4,4 +4,5 @@ class Post < ApplicationRecord
   has_many :commentary
   has_many :like
   validates :title, presence: true
+  validates :image, attached: true, content_type: /\Aimage\/.*\z/
 end

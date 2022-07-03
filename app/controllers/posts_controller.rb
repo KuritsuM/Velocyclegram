@@ -1,10 +1,18 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :check_authorization #, only: %i[ new edit create update destroy ]
-  before_action :check_post_creator, only: [ :update, :destroy ]
+  before_action :check_post_creator, only: [:update, :destroy]
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActionController::RoutingError, :with => :not_found
+  rescue_from ArgumentError, :with => :not_found
 
   # GET /posts/1
   def show
+    begin
+      @post = Post.find(params[:id])
+    rescue
+      not_found
+    end
   end
 
   # GET /posts/new
@@ -63,19 +71,27 @@ class PostsController < ApplicationController
 
   def check_authorization
     if !user_signed_in?
-      redirect_to '/'
+      redirect_to new_user_session_path
     end
   end
 
   def check_post_creator
-    if user_signed_in?
-      if !(current_user.post.find { |post| post.id == params[:id].to_i })
-        redirect_to profile_path(current_user.id)
-      end
+    check_authorization
+
+    if !(current_user.post.find { |post| post.id == params[:id].to_i })
+      redirect_to profile_path(current_user.id)
     end
   end
 
   def post_params
     params.require(:post).permit(:title, :image, :user_id)
+  end
+
+  def not_found
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found }
+      format.xml { head :not_found }
+      format.any { head :not_found }
+    end
   end
 end

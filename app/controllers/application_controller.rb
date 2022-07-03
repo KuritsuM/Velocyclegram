@@ -1,10 +1,11 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActionController::RoutingError, :with => :not_found
+  rescue_from ArgumentError, :with => :not_found
 
   def index
-    if user_signed_in?
-      redirect_to action: 'profile', controller: "velocyclegram", id: current_user.id
-    end
+    @posts = Post.limit(10).order('id desc')
   end
 
   protected
@@ -14,5 +15,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
     devise_parameter_sanitizer.permit(:sign_in, keys: [:username, :email])
     devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email, :avatar])
+  end
+
+  private
+
+  def not_found
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found }
+      format.xml  { head :not_found }
+      format.any  { head :not_found }
+    end
   end
 end

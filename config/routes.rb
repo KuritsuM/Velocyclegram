@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post "/follow", to: "follow#create"
   delete "/follow/:id", to: "follow#destroy"
 =end
+  get "/users/:page", to: "users#show", as: 'users'
 
   get "/commentary/:post_id", to: "commentaries#new", as: "new_comment"
 end

@@ -39,7 +39,7 @@
   <% end %>
 
   <div class="post-container">
-    <% @user.post.each do |post| %>
+    <% @user.post.reverse.each do |post| %>
       <div class="post">
 <!--    <%#= post.title %>-->
         <%= link_to image_tag(post.image), post_path(id: post.id) %>

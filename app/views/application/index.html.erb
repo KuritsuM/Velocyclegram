@@ -1,1 +1,14 @@
-<h1>Главное тут</h1>
+<h1>Последние посты наших пользователей:</h1>
+<div class="post-index-container">
+  <% @posts.each do |post| %>
+    <div class="post-image">
+      <%= image_tag post.image %>
+    </div>
+    <div class="post-utility">
+      <div class="author-info">
+        <%= link_to image_tag(post.user.avatar, class: "author-avatar"), profile_path(id: post.user.id) %>
+        <%= link_to post.user.username, profile_path(id: post.user.id) %>
+      </div>
+    </div>
+  <% end %>
+</div>
