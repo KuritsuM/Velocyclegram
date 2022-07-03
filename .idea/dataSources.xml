@@ -22,5 +22,12 @@
       <jdbc-url>jdbc:postgresql://0.0.0.0:5432/velocyclegram_production</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="velocyclegram_production@195.2.81.8" uuid="717f6d1a-f5f1-470a-b07f-65dc645d28c7">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://195.2.81.8:5432/velocyclegram_production</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

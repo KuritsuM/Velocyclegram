@@ -14,29 +14,18 @@ class User < ApplicationRecord
   has_many :like
   has_one_attached :avatar
 
-  validate :validate_username
-  validate :validate_email
+  validates :email, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: true
 
+  # for pagination
   self.per_page = 10
 
-  #validates :avatar, content_type: /\Aimage\/.*\z/
-
-  def validate_email
-    if User.where(email: email).exists?
-      errors.add(:email, :invalid)
-    end
-  end
-
-  def validate_username
-    if User.where(username: username).exists?
-      errors.add(:username, :invalid)
-    end
-  end
-
+  # returns login
   def login
     @login || self.username || self.email
   end
 
+  # allows use username as user identification via login
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if (login = conditions.delete(:login))
@@ -46,6 +35,7 @@ class User < ApplicationRecord
     end
   end
 
+  # returns avatar if has else default asset
   def avatar
     if super.attached?
       return super
