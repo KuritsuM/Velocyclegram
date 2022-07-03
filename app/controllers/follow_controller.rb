@@ -5,19 +5,11 @@ class FollowController < ApplicationController
   before_action :check_authorization, only: %i[ followers, followings ]
 
   def followers
-    begin
-      @followers = Follow.make_followers(params[:id])
-    rescue
-      @followers = nil # todo redirect to 403 page
-    end
+    @followers = Follow.make_followers(params[:id])
   end
 
   def followings
-    begin
-      @followings = Follow.make_followings(params[:id])
-    rescue
-      @followings = nil # todo redirect to 403 page
-    end
+    @followings = Follow.make_followings(params[:id])
   end
 
   def create
@@ -26,7 +18,7 @@ class FollowController < ApplicationController
     respond_to do |format|
       if @follow.save
         format.html { redirect_to profile_path(@follow.following.id) }
-        format.json { render json: [ status: "ok" ], status: :created, location: @follow }
+        format.json { render json: [status: "ok"], status: :created, location: @follow }
       end
     end
   end
@@ -42,6 +34,7 @@ class FollowController < ApplicationController
   end
 
   private
+
   def set_follow
     @follow = Follow.find(params[:id])
   end
