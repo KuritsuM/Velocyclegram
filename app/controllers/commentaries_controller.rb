@@ -1,8 +1,8 @@
 class CommentariesController < ApplicationController
-  before_action :check_authorization
+  load_and_authorize_resource
+  before_action :authenticate_user!
   before_action :set_commentary, only: %i[ edit update destroy ]
-  before_action :check_post_delete_permission, only: %i[ destroy ]
-  before_action :check_post_edit_permission, only: %i[ edit update ]
+
   # GET /commentaries/1/edit
   def edit
     @commentary = Commentary.find(params[:id])
@@ -52,30 +52,6 @@ class CommentariesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_commentary
     @commentary = Commentary.find(params[:id])
-  end
-
-  def check_authorization
-    if !user_signed_in?
-      redirect_to new_user_session_path
-    end
-  end
-
-  def check_post_edit_permission
-    check_authorization
-    set_commentary
-
-    if !(@commentary.user.id == current_user.id)
-      redirect_to profile_path(id: @commentary.post.user.id)
-    end
-  end
-
-  def check_post_delete_permission
-    check_authorization
-    set_commentary
-
-    if !(@commentary.post.user.id == current_user.id || @commentary.user.id == current_user.id)
-      redirect_to profile_path(id: @commentary.post.user.id)
-    end
   end
 
   # Only allow a list of trusted parameters through.
