@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :likes, only: [:create, :destroy]
   resources :commentaries, only: [:destroy, :create, :edit, :update]
   resources :follow, only: [ :create, :destroy ]
-  resources :posts
+  resources :posts, only: [ :create, :show, :update, :destroy, :new, :edit ]
   devise_for :users
 
   root "application#index"

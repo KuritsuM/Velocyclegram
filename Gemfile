@@ -29,6 +29,8 @@ gem 'active_storage_validations'
 gem 'marcel'
 # page pagination
 gem 'will_paginate'
+# authorization
+gem 'cancancan'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

@@ -1,7 +1,10 @@
 class PostsController < ApplicationController
+  load_and_authorize_resource
+  before_action :authenticate_user!
   before_action :set_post, only: %i[ show edit update destroy ]
-  before_action :check_authorization #, only: %i[ new edit create update destroy ]
-  before_action :check_post_creator, only: [:update, :destroy]
+  #before_action :authenticate_user!
+  #before_action :check_authorization #, only: %i[ new edit create update destroy ]
+  #before_action :check_post_creator, only: [:update, :destroy]
 
   # GET /posts/1
   def show
@@ -59,20 +62,6 @@ class PostsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_post
     @post = Post.includes(:commentary).where(id: params[:id]).first
-  end
-
-  def check_authorization
-    if !user_signed_in?
-      redirect_to new_user_session_path
-    end
-  end
-
-  def check_post_creator
-    check_authorization
-
-    if !(current_user.post.find { |post| post.id == params[:id].to_i })
-      redirect_to profile_path(current_user.id)
-    end
   end
 
   def post_params
