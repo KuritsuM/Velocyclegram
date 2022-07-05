@@ -5,17 +5,22 @@ DatabaseCleaner.strategy = :truncation
 DatabaseCleaner.clean
 
 RSpec.describe User, type: :model do
-  context 'login validator' do
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_presence_of(:username) }
+  it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
+  it { is_expected.to validate_uniqueness_of(:username) }
+  it { is_expected.to have_one_attached(:avatar) }
+  it { is_expected.to validate_presence_of(:password) }
+  it { is_expected.to validate_confirmation_of(:password) }
+  it { is_expected.to have_many(:post) }
+  it { is_expected.to have_many(:followings) }
+  it { is_expected.to have_many(:followers) }
+  it { is_expected.to have_many(:commentary) }
+  it { is_expected.to have_many(:like) }
+
+  context 'devise validator' do
     let!(:user) { create :user, :correct_user }
     let(:incorrect_user) { FactoryBot.build :user, :duplicated_email }
-
-    it "should be equal to username" do
-      expect(user.login).to eq('kurisum')
-    end
-
-    it "should add error" do
-      expect(incorrect_user.valid?).to be(false)
-    end
 
     let(:username) { { login: user.username } }
     let(:email) { { login: user.email } }

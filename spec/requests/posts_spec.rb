@@ -18,7 +18,7 @@ RSpec.describe "Posts", type: :request do
 
     it "should redirect to root if user not signed in" do
       get new_post_path
-      expect(response).to redirect_to("/")
+      expect(response).to redirect_to(new_user_session_path())
     end
 
     it "should return 200 if user logged in and trying edit post" do
@@ -28,10 +28,20 @@ RSpec.describe "Posts", type: :request do
     end
   end
 
+  let!(:correct_post) {
+    {
+      post:
+        {
+          title: "lorem",
+          user_id: user1.id,
+          image: Rack::Test::UploadedFile.new('./spec/factories/images/correct-image.jpeg', 'image/jpeg'),
+        }
+    }
+  }
   describe "POST /posts" do
     it "should redirect to user profile" do
       sign_in user1
-      post '/posts', params: { post: { title: "lorem", user_id: user1.id } }
+      post '/posts', params: correct_post
       expect(response).to redirect_to(profile_path(id: user1.id))
     end
 
@@ -45,15 +55,14 @@ RSpec.describe "Posts", type: :request do
   describe "PUT /posts" do
     it "should redirect to user profile if post update sucessfully" do
       sign_in user1
-      post '/posts', params: { post: { title: "lorem", user_id: user1.id } }
+      post '/posts', params: correct_post
       patch "/posts/#{user1.post[0].id}", params: { post: { title: "new lorem", user_id: user1.id } }
       expect(response).to redirect_to(profile_path(id: user1.id))
     end
 
     it "should redirect to user trying update post of another profile" do
       sign_in user1
-      patch "/posts/#{user_post.id}", params: { post: { title: "new lorem", user_id: user3.id } }
-      expect(response).to redirect_to(profile_path(id: user1.id))
+      expect { patch "/posts/#{user_post.id}", params: correct_post }.to raise_exception(CanCan::AccessDenied)
     end
 
     it "should have 422 http status code" do
@@ -72,8 +81,7 @@ RSpec.describe "Posts", type: :request do
 
     it "should redirect to user trying update post of another profile" do
       sign_in user1
-      delete "/posts/#{user_post.id}"
-      expect(response).to redirect_to(profile_path(id: user1.id))
+      expect { delete "/posts/#{user_post.id}" }.to raise_exception(CanCan::AccessDenied)
     end
   end
 end
