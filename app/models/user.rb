@@ -17,6 +17,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
 
+  enum role: { user: 0, moderator: 1, admin: 2 }
+
   # for pagination
   self.per_page = 10
 

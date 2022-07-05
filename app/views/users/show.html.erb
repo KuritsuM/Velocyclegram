@@ -1,8 +1,14 @@
 <div class="users">
   <% @users.each do |user| %>
     <div class="user-little-profile">
-      <%= image_tag user.avatar, height: 40 %>
-      <%= link_to user.username, profile_path(user.id) %>
+      <div class="user-profile-info">
+        <%= image_tag user.avatar, height: 40 %>
+        <%= link_to user.username, profile_path(user.id) %>
+      </div>
+      <div class="actions">
+        <% if can? :update, user %><%= link_to '🖊', edit_user_path(id: user.id) %><% end %>
+        <% if can? :destroy, user %><%= link_to '❌', user_path(id: user.id), method: :delete %><% end %>
+      </div>
     </div>
   <% end %>
 </div>

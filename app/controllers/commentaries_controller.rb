@@ -26,7 +26,7 @@ class CommentariesController < ApplicationController
   # PATCH/PUT /commentaries/1 or /commentaries/1.json
   def update
     respond_to do |format|
-      if @commentary.update(commentary_params)
+      if @commentary.update(update_commentary_params)
         format.html { redirect_to profile_path(@commentary.post.user.id) }
         format.json { render :show, status: :ok, location: @commentary }
       else
@@ -57,5 +57,9 @@ class CommentariesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def commentary_params
     params.require(:commentary).permit(:comment_text, :post_id, :user_id)
+  end
+
+  def update_commentary_params
+    params.require(:commentary).permit(:comment_text, :post_id)
   end
 end

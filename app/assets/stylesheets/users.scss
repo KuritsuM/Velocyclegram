@@ -1,3 +1,12 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.user-little-profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30px 40px 20px 40px;
+  border-radius: 5px;
+  border: solid 1px gray;
+}
