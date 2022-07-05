@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :commentaries, only: [:destroy, :create, :edit, :update]
   resources :follow, only: [ :create, :destroy ]
   resources :posts, only: [ :create, :show, :update, :destroy, :new, :edit ]
+  #resources :user, only: [ :update, :edit, :destroy ]
   devise_for :users
 
   root "application#index"
@@ -14,7 +15,11 @@ Rails.application.routes.draw do
   post "/follow", to: "follow#create"
   delete "/follow/:id", to: "follow#destroy"
 =end
-  get "/users/:page", to: "users#show", as: 'users'
+  get "/user/:page", to: "users#show", as: 'users'
+  get "/user/:id/edit", to: "users#edit", as: 'edit_user'
+  patch "/user/:id", to: "users#update"
+  put "/user/:id", to: "users#update"
+  delete "/user/:id", to: "users#destroy", as: 'user'
 
   get "/commentary/:post_id", to: "commentaries#new", as: "new_comment"
 end

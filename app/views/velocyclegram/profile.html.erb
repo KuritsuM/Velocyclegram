@@ -4,7 +4,7 @@
                 follow_path(current_user.followings.find { |following| following.following_id == @user.id }.id),
                 method: :delete %>
   <% else %>
-    <% if current_user.id != @user.id %>
+    <% if @user.id != current_user.id %>
       <%= form_with(model: Follow.new, url: "/follow") do |form| %>
         <%= form.number_field :follower_id, id: :user_id, value: current_user.id, type: :hidden %>
         <%= form.number_field :following_id, id: :user_id, value: @user.id, type: :hidden %>
@@ -31,7 +31,7 @@
   </div>
 
 
-  <% if current_user.id == @user.id %>
+  <% if can? :create, Post %>
     <%= link_to 'Создать пост', new_post_path %>
   <% end %>
 

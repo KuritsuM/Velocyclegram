@@ -1,8 +1,11 @@
-<br><br><br><br><br><br><br>
-<% if @followings %>
-  <% @followings.each do |following| %>
-    <%= link_to "Пользователь #{following.username}", profile_path(following.id) %><br>
-  <% end %>
-<% else %>
-  <h1>Пользователь не найден</h1>
+<% if @followings.empty? %>
+  <h2>У пользователя ни на что не подписан 😭</h2>
 <% end %>
+<div class="followers">
+  <% @followings.each do |following| %>
+    <div class="follower-profile">
+      <%= link_to image_tag(following.avatar, class: "avatar"), profile_path(following.id) %>
+      <%= link_to "#{following.username}", profile_path(following.id) %>
+    </div>
+  <% end %>
+</div>
