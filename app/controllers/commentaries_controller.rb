@@ -14,7 +14,7 @@ class CommentariesController < ApplicationController
 
     respond_to do |format|
       if @commentary.save
-        format.html { redirect_to profile_path(@commentary.post.user.id) }
+        format.html { redirect_to post_path(@commentary.post.id) }
         format.json { render :show, status: :created, location: @commentary }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -9,7 +9,10 @@ class Ability
     can :read, Post
     can [ :create, :update, :destroy ], Post, user: user
 
-    can [ :create, :destroy ], Like, user: user
+    can :destroy, Like, user: user
+    can :create, Like do |like|
+      like.user_id == user.id
+    end
 
     can [ :create, :destroy ], Follow, follower_id: user.id
     can :read, Follow
@@ -19,5 +22,7 @@ class Ability
     can :destroy, Commentary do |comment|
       comment.user == user || comment.post.user == user
     end
+
+    can :read, User
   end
 end

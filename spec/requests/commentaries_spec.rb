@@ -11,9 +11,8 @@ RSpec.describe "Commentaries", type: :request do
   let!(:commentary) { create :commentary, user: user3, post: user_post }
 
   describe "GET /edit" do
-    it "should redirect if user isn't signed in" do
-      get edit_commentary_path(id: commentary.id)
-      expect(response).to redirect_to('/')
+    it "should raise AccessDenied if user isn't signed in" do
+      expect { get edit_commentary_path(id: commentary.id) }.to raise_exception(CanCan::AccessDenied)
     end
 
     it "should return 200 code if user authorized and trying edit his commentary" do
@@ -22,18 +21,17 @@ RSpec.describe "Commentaries", type: :request do
       expect(response).to have_http_status(200)
     end
 
-    it "should redirect if user authorized and trying edit not his commentary" do
+    it "should raise AccessDenied if user authorized and trying edit not his commentary" do
       sign_in user1
-      get edit_commentary_path(id: commentary.id)
-      expect(response).to redirect_to(profile_path(id: commentary.post.user.id))
+      expect{ get edit_commentary_path(id: commentary.id) }.to raise_exception(CanCan::AccessDenied)
     end
   end
 
   describe "DELETE /commentaries" do
-    it "should redirect if user trying delete not his post" do
+    it "should raise AccessDenied if user trying delete not his post" do
       sign_in user1
-      delete commentary_path(id: commentary.id)
-      expect(response).to redirect_to(profile_path(id: commentary.post.user.id))
+      expect { delete commentary_path(id: commentary.id) }.to raise_exception(CanCan::AccessDenied)
+      #expect(response).to redirect_to(profile_path(id: commentary.post.user.id))
       expect(Commentary.find(commentary.id).id).to eq(commentary.id)
     end
 
@@ -53,7 +51,7 @@ RSpec.describe "Commentaries", type: :request do
     it "should create comment if user signed in" do
       sign_in user1
       post "/commentaries", params: correct_comment
-      expect(response).to redirect_to(profile_path(id: commentary.post.user.id))
+      expect(response).to redirect_to(post_path(id: commentary.post.id))
     end
 
     it "should return 422 status if comment_text field empty" do
@@ -64,10 +62,9 @@ RSpec.describe "Commentaries", type: :request do
   end
 
   describe "PUT /commentaries" do
-    it "should redirect if user trying update not his commentary" do
+    it "should raise AccessDenied if user trying update not his commentary" do
       sign_in user1
-      put "/commentaries/#{commentary.id}", params: correct_comment
-      expect(response).to redirect_to(profile_path(user3.id))
+      expect { put "/commentaries/#{commentary.id}", params: correct_comment }.to raise_exception(CanCan::AccessDenied)
     end
 
     it "should redirect if user update his commentary" do
