@@ -53,3 +53,13 @@
     text-decoration: none;
     display: block;
 }
+
+.post-image img {
+    width: 980px;
+    height: auto;
+}
+
+.post-image video {
+    width: 980px;
+    height: auto;
+}

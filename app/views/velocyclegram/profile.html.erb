@@ -38,7 +38,8 @@
   <div class="post-container">
     <% @user.post.reverse.each do |post| %>
       <div class="post">
-        <%= link_to image_tag(post.image), post_path(id: post.id) %>
+        <% media_presenter = PostMediaPresenter.new(post) %>
+        <%= link_to media_presenter.make_presentation, post_path(id: post.id) %>
       </div>
     <% end %>
   </div>

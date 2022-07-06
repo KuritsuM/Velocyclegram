@@ -1,6 +1,8 @@
 <div class="post-full">
   <div class="post-image">
-    <%= image_tag @post.image %>
+    <% post_media = PostMediaPresenter.new(@post) %>
+    <%= post_media.make_tag %>
+    <%#= video_tag(url_for(@post.image), controls: true) %>
   </div>
   <div class="post-utility">
     <div class="author-info">

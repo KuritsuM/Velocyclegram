@@ -31,6 +31,10 @@ gem 'marcel'
 gem 'will_paginate'
 # authorization
 gem 'cancancan'
+# ffmpeg
+gem 'streamio-ffmpeg'
+gem 'mini_magick'
+gem 'image_processing'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
