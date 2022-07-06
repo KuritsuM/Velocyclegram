@@ -2,7 +2,8 @@
 <div class="post-index-container">
   <% @posts.each do |post| %>
     <div class="post-image">
-      <%= image_tag post.image %>
+      <% media_presenter = PostMediaPresenter.new(post) %>
+      <%= media_presenter.make_tag %>
     </div>
     <div class="post-utility">
       <div class="author-info">
